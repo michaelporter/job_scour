@@ -2,13 +2,12 @@ require 'ruby-progressbar'
 
 class JobAggregator
   def initialize
-    @browser = MechanizeController.new
+    @browser = Browser.new
     @found_jobs = []
 
-    @path_actions = ['jobs', 'careers', 'about', 'team']
-
     @keywords ||= ['ruby', 'rails']
-    @keyword_regex = /#{Regexp.quote(@keywords.join("|"))}/i
+
+    @path_actions = ['jobs', 'careers', 'about', 'team']
     @url ||= ''
   end
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative 'lib/mechanize_controller.rb'
+require_relative 'lib/browser_controller.rb'
 require_relative 'lib/job_aggregator.rb'
 require_relative 'lib/made_in_nyc.rb'
 

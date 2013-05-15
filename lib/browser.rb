@@ -1,6 +1,6 @@
 require 'mechanize'
 
-class MechanizeController
+class Browser
   def new_page(page)
     unless page.gsub(" ", "").empty?
       Mechanize.start do |agent|
