@@ -43,7 +43,7 @@ class JobAggregator
     end
 
     File.open("results.txt", "w+") do |f|
-      f.write @found_jobs.join(",\n")
+      f.write @found_jobs.join("\n")
     end
 
     @found_jobs
