@@ -5,7 +5,7 @@ class JobAggregator
     @browser = Browser.new
     @found_jobs = []
 
-    @keywords ||= ['ruby', 'rails']
+    @keywords ||= 'ruby, rails'
     @no_result_pages = []
 
     @path_actions = ['jobs', 'careers', 'about', 'team']
@@ -41,11 +41,9 @@ class JobAggregator
         end
       end
     end
-    
-    puts @found_jobs.split(",\n")
 
-    File.open("results.txt", "w") do |f|
-      f.write @found_jobs.split(",\n")
+    File.open("results.txt", "w+") do |f|
+      f.write @found_jobs.join(",\n")
     end
 
     @found_jobs
@@ -88,7 +86,7 @@ class JobAggregator
   end
 
   def keyword_regex
-    /#{Regexp.quote(keywords.join("|"))}/i
+    Regexp.new(@keywords.split(", ").join("|"))
   end
 
   def new_progressbar(options = {})
@@ -102,7 +100,8 @@ class JobAggregator
   def scour(job_link)
     @browser.new_page(job_link) do |jobs_page|
       @pages_checked << jobs_page
-      if jobs_page.body =~ keyword_regex
+
+      if jobs_page.body =~ Regexp.new(@keywords.split(", ").join("|"), "i")
         @found_jobs << job_link
         @job_found = true
       end
