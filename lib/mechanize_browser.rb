@@ -6,7 +6,7 @@ class MechanizeBrowser < Browser
       scour_page(page, aggregator)
     end
 
-    return @found_jobs
+    @found_jobs
   end
 
   def scour_page(page, aggregator)
@@ -17,13 +17,11 @@ class MechanizeBrowser < Browser
       :total => unique_links.length
     )
 
-    unique_links.each_with_index do |link, index|
+    unique_links.each do |link|
       @job_found = false
 
-      unless last_link?(links, index)
-        create_links(link.href) do |composed_link|
-          find_keywords(composed_link) rescue next
-        end
+      create_links(link.href) do |composed_link|
+        find_keywords(composed_link) rescue next
       end
 
       progress_bar.increment
@@ -32,14 +30,8 @@ class MechanizeBrowser < Browser
 
   private
 
-  def last_link?(links, index)
-    index == links.length - 1
-  end
-
   def find_keywords(job_link)
     get_url(job_link) do |jobs_page|
-      @pages_checked << jobs_page
-
       super(jobs_page.body, job_link)
     end
   end
@@ -47,7 +39,6 @@ class MechanizeBrowser < Browser
   def get_url(url)
     unless url.gsub(" ", "").empty?
       Mechanize.start do |agent|
-        puts "getting #{url}"
         agent.get(url)
         yield agent.page if block_given?
       end

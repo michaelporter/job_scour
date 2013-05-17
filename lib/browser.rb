@@ -52,6 +52,8 @@ class Browser
       @found_jobs << url
       @job_found = true
     end
+
+  rescue
   end
 
   def get_page(page)
