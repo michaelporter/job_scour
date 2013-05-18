@@ -27,7 +27,7 @@ class CurlBrowser < Browser
   def scour_page(page, aggregator)
     page = Nokogiri::HTML(page)
     links = page.css("a")
-    unique_links = get_valid_links(links, aggregator)
+    unique_links = @link_parser.get_valid_links(links.to_a, aggregator)
     progress_bar = new_progressbar(
       :title => page.title,
       :total => unique_links.length
@@ -37,7 +37,7 @@ class CurlBrowser < Browser
       if link
         url = link.attributes["href"].value
 
-        create_links(url) do |composed_link|
+        follow_link(url) do |composed_link|
           find_keywords(composed_link)
         end
       end
@@ -46,10 +46,11 @@ class CurlBrowser < Browser
     end
   end
 
-  def get_valid_links(links, aggregator)
-    valid_links = links.dup.map {|link| !aggregator.ignore_link_text.include?(link.text) ? link : nil }
-    valid_links.compact
+  # does the nodeset of links have a to_a method?
+  #def get_valid_links(links, aggregator)
+  #  valid_links = links.dup.map {|link| !aggregator.ignore_link_text.include?(link.text) ? link : nil }
+  #  valid_links.compact
 
-    valid_links
-  end
+  #  valid_links
+  #end
 end

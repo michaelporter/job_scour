@@ -11,7 +11,7 @@ class MechanizeBrowser < Browser
 
   def scour_page(page, aggregator)
     links = page.links
-    unique_links = get_valid_links(links, aggregator)
+    unique_links = @link_parser.get_valid_links(links, aggregator)
     progress_bar = new_progressbar(
       :title => page.title,
       :total => unique_links.length
@@ -20,7 +20,7 @@ class MechanizeBrowser < Browser
     unique_links.each do |link|
       @job_found = false
 
-      create_links(link.href) do |composed_link|
+      follow_link(link.href) do |composed_link|
         find_keywords(composed_link) rescue next
       end
 
