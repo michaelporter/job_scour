@@ -11,7 +11,10 @@ GEM
       nokogiri (~> 1.4)
       ntlm-http (~> 0.1, >= 0.1.1)
       webrobots (>= 0.0.9, < 0.2)
+    metaclass (0.0.1)
     mime-types (1.23)
+    mocha (0.14.0)
+      metaclass (~> 0.0.1)
     net-http-digest_auth (1.3)
     net-http-persistent (2.8)
     nokogiri (1.5.9)
@@ -27,4 +30,5 @@ PLATFORMS
 
 DEPENDENCIES
   mechanize
+  mocha
   ruby-progressbar

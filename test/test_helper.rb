@@ -1,0 +1,11 @@
+require 'test/unit'
+require 'mocha/setup'
+require 'ruby-progressbar'
+require 'mechanize'
+
+require_relative '../lib/url_validator.rb'
+require_relative '../lib/link_parser.rb'
+require_relative '../lib/browser.rb'
+require_relative '../lib/mechanize_browser.rb'
+require_relative '../lib/curl_browser.rb'
+require_relative '../lib/job_aggregator.rb'
