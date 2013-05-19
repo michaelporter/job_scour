@@ -11,7 +11,7 @@ class CurlBrowser < Browser
 
   private
 
-  def find_keywords(job_link)
+  def test_page_for_keywords(job_link)
     get_url(job_link) do |jobs_page|
       super(jobs_page, job_link)
     end
@@ -28,7 +28,7 @@ class CurlBrowser < Browser
     page = Nokogiri::HTML(page)
     links = page.css("a")
     unique_links = @link_parser.get_valid_links(links.to_a, aggregator)
-    progress_bar = new_progressbar(
+    progress_bar = new_progress_bar(
       :title => page.title,
       :total => unique_links.length
     )
@@ -38,7 +38,7 @@ class CurlBrowser < Browser
         url = link.attributes["href"].value
 
         follow_link(url) do |composed_link|
-          find_keywords(composed_link)
+          test_page_for_keywords(composed_link)
         end
       end
 

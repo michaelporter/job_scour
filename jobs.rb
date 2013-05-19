@@ -1,6 +1,10 @@
 #!/usr/bin/env ruby
 
+require 'ruby-progressbar'
+require 'mechanize'
+
 require_relative 'lib/link_parser.rb'
+require_relative 'lib/url_validator.rb'
 require_relative 'lib/browser.rb'
 require_relative 'lib/mechanize_browser.rb'
 require_relative 'lib/curl_browser.rb'
