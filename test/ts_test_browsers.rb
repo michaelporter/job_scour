@@ -2,7 +2,8 @@
 
 require 'test/unit'
 
-require_relative 'tc_test_browser.rb'
-require_relative 'tc_test_url_validator.rb'
+require_relative 'tc_browser.rb'
+require_relative 'tc_curl_browser.rb'
+require_relative 'tc_url_validator.rb'
 
 

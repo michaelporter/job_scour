@@ -1,6 +1,6 @@
 require_relative 'test_helper.rb'
 
-class TestBrowser < Test::Unit::TestCase
+class BrowserTest < Test::Unit::TestCase
   def setup
     @keywords = 'ruby, rails'
     @keywords2 = 'php, java'

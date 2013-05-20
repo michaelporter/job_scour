@@ -11,15 +11,13 @@ class CurlBrowser < Browser
 
   private
 
-  def test_page_for_keywords(job_link)
-    get_url(job_link) do |jobs_page|
-      super(jobs_page, job_link)
-    end
+  def curl(url)
+    `curl -f -s 2 #{url}`
   end
 
   def get_url(url)
     unless url.gsub(" ", "").empty?
-      result = `curl -f -s 2 #{url}`
+      result = curl(url)
       yield result if block_given?
     end
   end
@@ -42,7 +40,13 @@ class CurlBrowser < Browser
         end
       end
 
-        progress_bar.increment
+      progress_bar.increment
+    end
+  end
+
+  def test_page_for_keywords(job_link)
+    get_url(job_link) do |jobs_page|
+      super(jobs_page, job_link)
     end
   end
 

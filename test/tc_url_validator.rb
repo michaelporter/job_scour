@@ -1,6 +1,6 @@
 require_relative 'test_helper.rb'
 
-class TestUrlValidator < Test::Unit::TestCase 
+class UrlValidatorTest < Test::Unit::TestCase 
   def setup
     @aggregator_url = "www.aggregator.com"
     @url_validator = UrlValidator.new
