@@ -6,6 +6,7 @@ class MechanizeBrowser < Browser
   private
 
   def browse_to_url(url)
+    page = " "
     unless url.gsub(" ", "").empty?
       Mechanize.start do |agent|
         agent.get(url)
@@ -21,7 +22,7 @@ class MechanizeBrowser < Browser
   end
 
   def get_url_from_link(link)
-    link.url
+    link.href
   end
 end
 

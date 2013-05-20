@@ -10,7 +10,6 @@ require_relative 'lib/mechanize_browser.rb'
 require_relative 'lib/curl_browser.rb'
 require_relative 'lib/job_aggregator.rb'
 
-#@browser = MechanizeBrowser.new(:keywords => 'ruby, rails')
 @browser = CurlBrowser.new(:keywords => 'ruby, rails')
 
 job_aggregators = []
