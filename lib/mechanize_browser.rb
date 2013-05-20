@@ -1,6 +1,6 @@
 class MechanizeBrowser < Browser
-  def scour_page(page, aggregator)
-    super(page, aggregator)
+  def scour_page(page)
+    super(page)
   end
 
   private
@@ -9,9 +9,11 @@ class MechanizeBrowser < Browser
     unless url.gsub(" ", "").empty?
       Mechanize.start do |agent|
         agent.get(url)
-        yield agent.page if block_given?
+        page = agent.page
       end
     end
+
+    page || " "
   end
 
   def get_links(page)

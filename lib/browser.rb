@@ -7,11 +7,9 @@ class Browser
   end
 
   def scour_aggregator(aggregator)
-    @aggregator_url = aggregator.url
-
-    browse_to_url(@aggregator_url) do |page|
-      scour_page(page, aggregator)
-    end
+    @aggregator = aggregator
+    page = browse_to_url(@aggregator.url)
+    scour_page(page)
 
     @found_jobs
   end
@@ -61,9 +59,9 @@ class Browser
     page_content =~ keyword_regex
   end
 
-  def scour_page(page, aggregator)
+  def scour_page(page)
     links = get_links(page)
-    unique_links = @link_parser.get_valid_links(links.to_a, aggregator)
+    unique_links = @link_parser.get_valid_links(links.to_a, @aggregator)
     progress_bar = new_progress_bar(
       :title => page.title,
       :total => unique_links.length
@@ -85,7 +83,7 @@ class Browser
   end
 
   def url_valid?(url)
-    @url_validator.url_valid(url, @aggregator.url)
+    @url_validator.url_valid?(url, @aggregator.url)
   end
 end
 

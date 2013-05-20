@@ -1,14 +1,4 @@
 class CurlBrowser < Browser
-  def scour_aggregator(aggregator)
-    @aggregator_url = aggregator.url
-
-    browse_to_url(@aggregator_url) do |page|
-      scour_page(page, aggregator)
-    end
-
-    @found_jobs
-  end
-
   private
 
   def curl(url)
@@ -16,12 +6,12 @@ class CurlBrowser < Browser
   end
 
   def browse_to_url(url)
-    result = url.gsub(" ", "").empty? ? " " : curl(url)
+    url.gsub(" ", "").empty? ? " " : curl(url)
   end
 
-  def scour_page(page, aggregator)
+  def scour_page(page)
     page = Nokogiri::HTML(page)
-    super(page, aggregator)
+    super(page)
   end
 
   def get_links(page)
