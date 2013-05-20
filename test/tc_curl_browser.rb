@@ -35,33 +35,30 @@ class CurlBrowserTest < Test::Unit::TestCase
   end
 
   def test_scour_aggregator
-    @curl_browser.expects(:get_url).yields(@test_html)
+    @curl_browser.expects(:browse_to_url).yields(@test_html)
     @curl_browser.expects(:scour_page).with(@test_html, @aggregator).returns(nil)
 
     assert_instance_of Array, @curl_browser.scour_aggregator(@aggregator)
   end
 
-  def test_test_page_for_keywords
-    @curl_browser.expects(:get_url).with(@test_job_url).yields(@test_html)
-    @curl_browser.stubs(:super).returns(nil)
-
-    assert_nothing_raised do
-      @curl_browser.send(:test_page_for_keywords, @test_job_url)
-    end
-  end
-
-  def test_get_url
+  def test_browse_to_url
     @curl_browser.expects(:curl).with(@test_job_url).returns(@test_html)
 
-    assert_nothing_raised do
-      @curl_browser.send(:get_url, @test_job_url) 
-    end
+    assert_nothing_raised { @curl_browser.send(:browse_to_url, @test_job_url) }
   end
 
   def test_curl
-    assert_nothing_raised do
-      @curl_browser.send(:curl, @test_job_url)
-    end
+    assert_nothing_raised { @curl_browser.send(:curl, @test_job_url) }
+  end
+
+  def test_get_links
+    @test_html.expects(:css).returns(true)
+
+    assert_not_nil @curl_browser.send(:get_links, @test_html)
+  end
+
+  def test_get_url_from_link
+    assert_equal @test_job_url, @test_links.first.attributes["href"].value
   end
 
   def test_scour_page
@@ -70,10 +67,9 @@ class CurlBrowserTest < Test::Unit::TestCase
     @link_parser.expects(:get_valid_links).returns(@test_links)
     @curl_browser.expects(:new_progress_bar).returns(@progress_bar)
     @curl_browser.stubs(:follow_link).yields(@test_links.first)
+    @curl_browser.expects(:browse_to_url).returns @test_html
     @curl_browser.expects(:test_page_for_keywords).returns true
 
-    assert_nothing_raised do
-      @curl_browser.send(:scour_page, @test_html, @aggregator)
-    end
+    assert_nothing_raised { @curl_browser.send(:scour_page, @test_html, @aggregator) }
   end
 end

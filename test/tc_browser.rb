@@ -49,9 +49,9 @@ class BrowserTest < Test::Unit::TestCase
     assert_not_nil @browser.send(:page_contains_keywords?, page_html)
   end
 
-  def test_get_page
+  def test_browse_to_url
     assert_raise NotImplementedError do
-      @browser.send(:get_page, "https://www.duckduckgo.com")
+      @browser.send(:browse_to_url, "https://www.duckduckgo.com")
     end
   end
 

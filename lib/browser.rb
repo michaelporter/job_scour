@@ -6,7 +6,21 @@ class Browser
     @url_validator = UrlValidator.new
   end
 
+  def scour_aggregator(aggregator)
+    @aggregator_url = aggregator.url
+
+    browse_to_url(@aggregator_url) do |page|
+      scour_page(page, aggregator)
+    end
+
+    @found_jobs
+  end
+
   private
+
+  def browse_to_url(url)
+    raise NotImplementedError
+  end
 
   def follow_link(url, &block)
     if url_valid?(url)
@@ -21,12 +35,12 @@ class Browser
     end
   end
 
-  def keyword_regex
-    Regexp.new(@keywords.split(", ").join("|"), "i")
+  def get_links
+    raise NotImplementedError
   end
 
-  def get_page(page)
-    raise NotImplementedError
+  def keyword_regex
+    Regexp.new(@keywords.split(", ").join("|"), "i")
   end
 
   def new_progress_bar(options = {})
@@ -45,6 +59,29 @@ class Browser
 
   def page_contains_keywords?(page_content)
     page_content =~ keyword_regex
+  end
+
+  def scour_page(page, aggregator)
+    links = get_links(page)
+    unique_links = @link_parser.get_valid_links(links.to_a, aggregator)
+    progress_bar = new_progress_bar(
+      :title => page.title,
+      :total => unique_links.length
+    )
+
+    unique_links.each do |link|
+      if link
+        follow_link(get_url_from_link(link)) do |composed_link|
+          test_page_for_keywords(browse_to_url(composed_link), composed_link) rescue next
+        end
+      end
+
+      progress_bar.increment
+    end
+  end
+
+  def unique_links(link)
+    raise NotImplementedError
   end
 
   def url_valid?(url)
