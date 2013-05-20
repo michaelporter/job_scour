@@ -6,7 +6,7 @@ class CurlBrowser < Browser
       scour_page(page, aggregator)
     end
 
-    return @found_jobs
+    @found_jobs
   end
 
   private
@@ -49,12 +49,4 @@ class CurlBrowser < Browser
       super(jobs_page, job_link)
     end
   end
-
-  # does the nodeset of links have a to_a method?
-  #def get_valid_links(links, aggregator)
-  #  valid_links = links.dup.map {|link| !aggregator.ignore_link_text.include?(link.text) ? link : nil }
-  #  valid_links.compact
-
-  #  valid_links
-  #end
 end

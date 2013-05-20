@@ -4,7 +4,7 @@ class CurlBrowserTest < Test::Unit::TestCase
   def setup
     @curl_browser = CurlBrowser.new
     @test_job_url = "https://www.duckduckgo.com/jobs"
-    @test_html = "<html><head><body>Hello!</body></head></html>"
+    @test_html = "<html><head><body>Hello!<a href='https://www.duckduckgo.com'>Duck Duck Go</a></body></head></html>"
 
     @aggregator = mock()
     @aggregator.stubs(:url).returns("https://nytm.made-in-nyc")
@@ -19,7 +19,9 @@ class CurlBrowserTest < Test::Unit::TestCase
       mock_href.stubs(:value).returns(link)
 
       mock_link = mock()
-      mock_link.stubs(:attributes).returns({:href => mock_href})
+      mock_link.stubs(:attributes).returns({'href' => mock_href})
+
+      link = mock_link
     end
 
     @curl_browser.instance_variable_set "@link_parser", @link_parser
@@ -63,18 +65,12 @@ class CurlBrowserTest < Test::Unit::TestCase
   end
 
   def test_scour_page
-    @curl_browser.expects(:new_progress_bar).returns(@progress_bar)
-    @curl_browser.expects(:follow_link).yields(@test_links.first)
-    @curl_browser.expects(:test_page_for_keywords).returns(nil)
-    @link_parser.expects(:get_valid_links).returns(@test_links)
     test_page = mock()
     test_page.stubs(:title).returns("Page Title")
-
-    class Nokogiri
-      module HTML
-      end
-    end
-    Nokogiri.stubs("HTML").returns(test_page)
+    @link_parser.expects(:get_valid_links).returns(@test_links)
+    @curl_browser.expects(:new_progress_bar).returns(@progress_bar)
+    @curl_browser.stubs(:follow_link).yields(@test_links.first)
+    @curl_browser.expects(:test_page_for_keywords).returns true
 
     assert_nothing_raised do
       @curl_browser.send(:scour_page, @test_html, @aggregator)

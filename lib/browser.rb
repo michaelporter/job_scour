@@ -41,7 +41,6 @@ class Browser
     if page_contains_keywords?(page_html)
       @found_jobs << url
     end
-  rescue
   end
 
   def page_contains_keywords?(page_content)
