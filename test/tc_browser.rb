@@ -14,9 +14,7 @@ class BrowserTest < Test::Unit::TestCase
     @browser.stubs(:url_valid?).returns(true)
     @browser.instance_variable_set "@link_parser", @link_parser
 
-    assert_nothing_raised do
-      @browser.send(:follow_link, test_url)
-    end
+    assert_nothing_raised { @browser.send(:follow_link, test_url)}
   end
 
   ## Keywords
