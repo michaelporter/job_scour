@@ -6,7 +6,8 @@ class UrlValidator
   private
 
   def url_does_not_have_invalid_references(url, *invalid_references)
-    (url =~ /mailto|#{invalid_references.join("|")}/i).nil? ? true : false
+    invalid_references = invalid_references.flatten.push "mailto"
+    (url =~ /#{invalid_references.join("|")}/i).nil? ? true : false
   end
 
   def url_has_http(url)
