@@ -35,8 +35,8 @@ class CurlBrowserTest < Test::Unit::TestCase
   end
 
   def test_scour_aggregator
-    @curl_browser.expects(:browse_to_url).yields(@test_html)
-    @curl_browser.expects(:scour_page).with(@test_html, @aggregator).returns(nil)
+    @curl_browser.expects(:browse_to_url).returns(@test_html)
+    @curl_browser.expects(:scour_page).with(@test_html).returns(nil)
 
     assert_instance_of Array, @curl_browser.scour_aggregator(@aggregator)
   end
@@ -70,6 +70,6 @@ class CurlBrowserTest < Test::Unit::TestCase
     @curl_browser.expects(:browse_to_url).returns @test_html
     @curl_browser.expects(:test_page_for_keywords).returns true
 
-    assert_nothing_raised { @curl_browser.send(:scour_page, @test_html, @aggregator) }
+    assert_nothing_raised { @curl_browser.send(:scour_page, @test_html) }
   end
 end
