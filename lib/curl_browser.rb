@@ -15,7 +15,7 @@ class CurlBrowser < Browser
   end
 
   def get_links(page)
-    page.css("a")
+    page.css("section.made-listing a")
   end
 
   def get_url_from_link(link)

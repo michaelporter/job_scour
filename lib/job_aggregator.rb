@@ -4,12 +4,13 @@ class JobAggregator
     @url ||= ''
   end
 
-  attr_reader :url, :ignore_link_text
+  attr_reader :ignore_link_text
+  attr_accessor :url
 end
 
 class MadeInNyc < JobAggregator
   def initialize
-    @url = "http://nytm.org/made-in-nyc"
+    @url = "https://nytm.org/made?list=true"
     @ignore_link_text = ['(hiring)']
 
     super

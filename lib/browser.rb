@@ -1,15 +1,22 @@
 class Browser
   def initialize(options = {})
     @found_jobs = []
-    @keywords = options[:keywords] || "ruby, rails"
+    @keywords = options[:keywords] || "product"
     @link_parser = LinkParser.new
     @url_validator = UrlValidator.new
+
+    ARGV[0] ? @num_pages = ARGV[0].to_i : @num_pages = 1
   end
 
   def scour_aggregator(aggregator)
     @aggregator = aggregator
-    page = browse_to_url(@aggregator.url)
-    scour_page(page)
+
+    (1..@num_pages).each do |page_id|
+      @aggregator.url = "https://nytm.org/made?list=true&page=#{page_id}"
+      puts "Page #{page_id}"
+      page = browse_to_url(@aggregator.url)
+      scour_page(page)
+    end
 
     @found_jobs
   end
@@ -51,6 +58,7 @@ class Browser
 
   def test_page_for_keywords(page_html, url)
     if page_contains_keywords?(page_html)
+        puts "Found Match at #{url}"
       @found_jobs << url
     end
   end
