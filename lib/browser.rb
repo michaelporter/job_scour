@@ -5,7 +5,7 @@ class Browser
     @link_parser = LinkParser.new
     @url_validator = UrlValidator.new
 
-    ARGV[0] ? @num_pages = ARGV[0].to_i : @num_pages = 1
+    @num_pages = ARGV[0] ? ARGV[0].to_i : 1
   end
 
   def scour_aggregator(aggregator)

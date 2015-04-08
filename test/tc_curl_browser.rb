@@ -10,6 +10,7 @@ class CurlBrowserTest < Test::Unit::TestCase
     @aggregator.stubs(:url).returns("https://nytm.made-in-nyc")
 
     @link_parser = mock()
+    @num_pages = 1
     @test_links = [
       "https://www.duckduckgo.com/jobs"
     ]
