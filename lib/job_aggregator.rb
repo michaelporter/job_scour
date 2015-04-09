@@ -20,7 +20,7 @@ class MadeInNyc < JobAggregator
 
   def paged_urls(pages)
     urls = []
-    (1..pages.to_i).each do |page|
+    (1..pages).each do |page|
       urls << @url + "&page=#{page}"
     end
 
