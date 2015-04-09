@@ -2,8 +2,7 @@ class JobAggregator
   def initialize
     @ignore_link_text ||= []
     @url ||= ''
-    @num_pages = ARGV[0] ? ARGV[0].to_i : 1
-
+    @num_pages = 1
   end
 
   attr_reader :ignore_link_text, :num_pages
@@ -14,6 +13,7 @@ class MadeInNyc < JobAggregator
   def initialize
     @url = "https://nytm.org/made?list=true"
     @ignore_link_text = ['(hiring)']
+    @num_pages = ARGV[0] ? ARGV[0].to_i : 1
 
     super
   end

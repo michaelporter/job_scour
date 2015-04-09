@@ -9,14 +9,18 @@ class Browser
   def scour_aggregator(aggregator)
     @aggregator = aggregator
 
-    urls = @aggregator.paged_urls(@aggregator.num_pages)
+    if @aggregator.class == MadeInNyc
+      urls = @aggregator.paged_urls(@aggregator.num_pages)
 
-    urls.each do |url|
-      puts "Searching #{url}"
-      page = browse_to_url(url)
+      urls.each do |url|
+        puts "Searching #{url}"
+        page = browse_to_url(url)
+        scour_page(page)
+      end
+    else
+      page = browse_to_url(@aggregator.url)
       scour_page(page)
     end
-
     @found_jobs
   end
 
