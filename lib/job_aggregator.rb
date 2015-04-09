@@ -1,30 +1,40 @@
 class JobAggregator
   def initialize
     @ignore_link_text ||= []
-    @url ||= ''
-    @num_pages = 1
+    @urls ||= []
   end
 
-  attr_reader :ignore_link_text, :num_pages
-  attr_accessor :url
+  attr_reader :ignore_link_text
+  attr_accessor :urls
+
+  def paged_urls(config)
+    url_array = []
+
+    (1..config[:num_pages]).each do |page|
+      url_array << config[:url_base] + config[:page_structure] + page.to_s
+    end
+    url_array
+    
+  end
+
 end
 
 class MadeInNyc < JobAggregator
   def initialize
-    @url = "https://nytm.org/made?list=true"
+
+    config = Psych::load(File.open('config.yml'))
+
+    url_config = {
+      url_base: config['aggregators']['MadeInNyc']['base_url'],
+      page_structure:  config['aggregators']['MadeInNyc']['page_structure'],
+      num_pages: config['aggregators']['MadeInNyc']['num_pages']
+    }
+
     @ignore_link_text = ['(hiring)']
-    @num_pages = ARGV[0] ? ARGV[0].to_i : 1
+    
+    @urls = paged_urls(url_config)
 
     super
-  end
-
-  def paged_urls(pages)
-    urls = []
-    (1..pages).each do |page|
-      urls << @url + "&page=#{page}"
-    end
-   
-    urls
   end
 
 end

@@ -1,26 +1,20 @@
 class Browser
   def initialize(options = {})
     @found_jobs = []
-    @keywords = options[:keywords] || "product"
+    @keywords = options[:keywords] || "ruby, rails"
     @link_parser = LinkParser.new
     @url_validator = UrlValidator.new
   end
 
   def scour_aggregator(aggregator)
     @aggregator = aggregator
-
-    if @aggregator.class == MadeInNyc
-      urls = @aggregator.paged_urls(@aggregator.num_pages)
-
-      urls.each do |url|
+      
+      @aggregator.urls.each do |url|
         puts "Searching #{url}"
         page = browse_to_url(url)
         scour_page(page)
       end
-    else
-      page = browse_to_url(@aggregator.url)
-      scour_page(page)
-    end
+    
     @found_jobs
   end
 
@@ -94,7 +88,7 @@ class Browser
   end
 
   def url_valid?(url)
-    @url_validator.url_valid?(url, @aggregator.url)
+    @url_validator.url_valid?(url, @aggregator.urls)
   end
 end
 
