@@ -15,6 +15,7 @@ class CurlBrowser < Browser
   end
 
   def get_links(page)
+    ## To Do: this should not be aggregator specific, but it is
     page.css("section.made-listing a")
   end
 
