@@ -23,9 +23,8 @@ class MadeInNyc < JobAggregator
     (1..pages).each do |page|
       urls << @url + "&page=#{page}"
     end
-
+   
     urls
-
   end
 
 end
