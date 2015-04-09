@@ -4,17 +4,16 @@ class Browser
     @keywords = options[:keywords] || "product"
     @link_parser = LinkParser.new
     @url_validator = UrlValidator.new
-
-    @num_pages = ARGV[0] ? ARGV[0].to_i : 1
   end
 
   def scour_aggregator(aggregator)
     @aggregator = aggregator
 
-    (1..@num_pages).each do |page_id|
-      @aggregator.url = "https://nytm.org/made?list=true&page=#{page_id}"
-      puts "Page #{page_id}"
-      page = browse_to_url(@aggregator.url)
+    urls = @aggregator.paged_urls(@aggregator.num_pages)
+
+    urls.each do |url|
+      puts "Searching #{url}"
+      page = browse_to_url(url)
       scour_page(page)
     end
 

@@ -2,9 +2,11 @@ class JobAggregator
   def initialize
     @ignore_link_text ||= []
     @url ||= ''
+    @num_pages = ARGV[0] ? ARGV[0].to_i : 1
+
   end
 
-  attr_reader :ignore_link_text
+  attr_reader :ignore_link_text, :num_pages
   attr_accessor :url
 end
 
@@ -15,4 +17,15 @@ class MadeInNyc < JobAggregator
 
     super
   end
+
+  def paged_urls(pages)
+    urls = []
+    (1..pages.to_i).each do |page|
+      urls << @url + "&page=#{page}"
+    end
+
+    urls
+
+  end
+
 end
