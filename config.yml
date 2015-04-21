@@ -1,0 +1,6 @@
+aggregators:
+    MadeInNyc:
+        base_url: "https://nytm.org/made?list=true"
+        num_pages: 28
+        page_structure: "&page="
+        div_to_scrape: "section.made-listing a"

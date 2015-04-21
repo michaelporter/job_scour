@@ -8,9 +8,13 @@ class Browser
 
   def scour_aggregator(aggregator)
     @aggregator = aggregator
-    page = browse_to_url(@aggregator.url)
-    scour_page(page)
-
+      
+      @aggregator.urls.each do |url|
+        puts "Searching #{url}"
+        page = browse_to_url(url)
+        scour_page(page)
+      end
+    
     @found_jobs
   end
 
@@ -51,6 +55,7 @@ class Browser
 
   def test_page_for_keywords(page_html, url)
     if page_contains_keywords?(page_html)
+        puts "Found Match at #{url}"
       @found_jobs << url
     end
   end
@@ -83,7 +88,7 @@ class Browser
   end
 
   def url_valid?(url)
-    @url_validator.url_valid?(url, @aggregator.url)
+    @url_validator.url_valid?(url, @aggregator.urls)
   end
 end
 

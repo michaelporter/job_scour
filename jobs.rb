@@ -2,6 +2,7 @@
 
 require 'ruby-progressbar'
 require 'mechanize'
+require 'Psych'
 
 require_relative 'lib/link_parser.rb'
 require_relative 'lib/url_validator.rb'

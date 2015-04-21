@@ -32,7 +32,7 @@ class MadeInNycTest < Test::Unit::TestCase
   end
 
   def test_url_attribute_default
-    assert_equal 'http://nytm.org/made-in-nyc', @made_in_nyc.url
+    assert_equal 'https://nytm.org/made?list=true', @made_in_nyc.url
   end
 
   def test_ignore_link_test_attribute
